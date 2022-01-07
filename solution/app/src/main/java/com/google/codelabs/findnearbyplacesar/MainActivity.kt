@@ -14,6 +14,7 @@
 
 package com.google.codelabs.findnearbyplacesar
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
 import android.hardware.Sensor
@@ -176,6 +177,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun setUpMaps() {
         mapFragment.getMapAsync { googleMap ->
             googleMap.isMyLocationEnabled = true
@@ -197,6 +199,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun getCurrentLocation(onSuccess: (Location) -> Unit) {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             currentLocation = location
@@ -207,13 +210,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun getNearbyPlaces(location: Location) {
-        val apiKey = this.getString(R.string.google_maps_key)
-        placesService.nearbyPlaces(
-            apiKey = apiKey,
-            location = "${location.latitude},${location.longitude}",
-            radiusInMeters = 2000,
-            placeType = "park"
-        ).enqueue(
+        placesService.nearbyPlaces().enqueue(
             object : Callback<NearbyPlacesResponse> {
                 override fun onFailure(call: Call<NearbyPlacesResponse>, t: Throwable) {
                     Log.e(TAG, "Failed to get nearby places", t)

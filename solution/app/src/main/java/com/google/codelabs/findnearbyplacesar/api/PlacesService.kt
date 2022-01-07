@@ -29,16 +29,11 @@ import retrofit2.http.Query
  */
 interface PlacesService {
 
-    @GET("nearbysearch/json")
-    fun nearbyPlaces(
-        @Query("key") apiKey: String,
-        @Query("location") location: String,
-        @Query("radius") radiusInMeters: Int,
-        @Query("type") placeType: String
-    ): Call<NearbyPlacesResponse>
+    @GET("ar2.json")
+    fun nearbyPlaces(): Call<NearbyPlacesResponse>
 
     companion object {
-        private const val ROOT_URL = "https://maps.googleapis.com/maps/api/place/"
+        private const val ROOT_URL = "https://raw.githubusercontent.com/farzaneh-behzaad/testar/main/"
 
         fun create(): PlacesService {
             val logger = HttpLoggingInterceptor()
